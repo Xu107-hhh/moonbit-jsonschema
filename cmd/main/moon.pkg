@@ -1,0 +1,5 @@
+import {
+  "Xu107-hhh/moonbit-jsonschema" @lib,
+}
+
+pkgtype(kind: "executable")
