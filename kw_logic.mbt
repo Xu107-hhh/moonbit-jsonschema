@@ -11,7 +11,12 @@ fn kw_logic(
   match obj.get("allOf") {
     Some(Array(schemas)) =>
       for i, sub in schemas {
+        // each branch runs in its own annotation scope so that cousin
+        // branches cannot see each other's evaluations; a branch's
+        // annotations merge into the parent once it has run
+        ctx.push_scope()
         validate_node(ctx, sub, inst, ip, sp.key("allOf").idx(i))
+        ctx.merge_scope()
       }
     _ => ()
   }
@@ -19,9 +24,10 @@ fn kw_logic(
     Some(Array(schemas)) => {
       let mut matched = false
       for i, sub in schemas {
+        // evaluate every branch: annotations from all successful
+        // branches must be visible to unevaluated* keywords
         if ctx.probe(sub, inst, ip, sp.key("anyOf").idx(i)) {
           matched = true
-          break
         }
       }
       if !matched {

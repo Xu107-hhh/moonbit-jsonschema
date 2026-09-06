@@ -8,7 +8,7 @@ fn parse_pointer_fragment(fragment : String) -> Array[String]? {
   let buf = StringBuilder()
   let mut in_escape = false
   let mut pos = 0
-  for c in fragment {
+  for c in decode_percent(fragment) {
     if pos == 0 && c == '#' {
       pos = pos + 1
       continue // skip the leading '#'

@@ -74,10 +74,13 @@ fn kw_object(
       }
     _ => ()
   }
+  let ip_str = render_path(ip)
   for name, sub in prop_defs {
     match props.get(name) {
-      Some(v) =>
+      Some(v) => {
         validate_node(ctx, sub, v, ip.key(name), sp.key("properties").key(name))
+        ctx.note_prop(ip_str, name)
+      }
       None => ()
     }
   }
@@ -105,6 +108,7 @@ fn kw_object(
           ip.key(key),
           sp.key("patternProperties").key(pattern),
         )
+        ctx.note_prop(ip_str, key)
       }
     }
   }
@@ -130,6 +134,7 @@ fn kw_object(
             ip.key(key),
             sp.key("additionalProperties"),
           )
+          ctx.note_prop(ip_str, key)
         }
       }
     None => ()

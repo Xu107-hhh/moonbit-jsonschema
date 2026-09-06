@@ -82,7 +82,7 @@ test "is_multiple: float tolerance" {
 }
 
 ///|
-test "collect_anchors: finds nested anchors" {
+test "find_anchor_in_resource: finds nested anchors" {
   let text =
     #|{
     #|  "properties": {
@@ -90,7 +90,9 @@ test "collect_anchors: finds nested anchors" {
     #|  }
     #|}
   let doc = @json.parse(text)
-  let anchors = Map([])
-  collect_anchors(doc, anchors)
-  inspect(anchors.get("nodeAnchor") is Some(_), content="true")
+  let hit = find_anchor_in_resource(doc, "nodeAnchor", false)
+  inspect(
+    hit is Some(Object(o)) && o.get("type") is Some(String("object")),
+    content="true",
+  )
 }

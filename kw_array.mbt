@@ -36,6 +36,7 @@ fn kw_array(
   }
   // prefixItems applies to the leading positions; items applies to the rest.
   let mut prefix = 0
+  let ip_str = render_path(ip)
   match obj.get("prefixItems") {
     Some(Array(schemas)) => {
       prefix = schemas.length()
@@ -48,6 +49,7 @@ fn kw_array(
           ip.idx(i),
           sp.key("prefixItems").idx(i),
         )
+        ctx.note_item(ip_str, i)
       }
     }
     _ => ()
@@ -56,6 +58,7 @@ fn kw_array(
     Some(schema) =>
       for i in prefix..<len {
         validate_node(ctx, schema, items[i], ip.idx(i), sp.key("items"))
+        ctx.note_item(ip_str, i)
       }
     None => ()
   }
@@ -91,6 +94,8 @@ fn kw_array(
       for i in 0..<len {
         if ctx.probe(contains_schema, items[i], ip.idx(i), sp.key("contains")) {
           matched = matched + 1
+          // a matched element counts as evaluated for unevaluatedItems
+          ctx.note_item(ip_str, i)
         }
       }
       let min = match obj.get("minContains") {
