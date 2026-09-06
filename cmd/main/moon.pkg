@@ -1,4 +1,5 @@
 import {
+  "moonbitlang/core/argparse",
   "Xu107-hhh/moonbit-jsonschema" @lib,
 }
 
