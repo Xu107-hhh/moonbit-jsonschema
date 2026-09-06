@@ -3,6 +3,7 @@
 
 // Registry of external documents available for $ref resolution
 // (the suite's HTTP remotes, vendored under suite/remotes).
+
 ///|
 fn docs() -> Map[String, Json] {
   let m : Map[String, Json] = Map([])
