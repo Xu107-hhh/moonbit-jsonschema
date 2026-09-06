@@ -225,11 +225,12 @@ fn resolve_uri_reference(ctx : Ctx, reference : String) -> Json? {
   ctx.jumped = 0
   let base = ctx.id_stack[ctx.id_stack.length() - 1]
   let abs = uri_join(base, reference)
-  // the official 2020-12 metaschema is accepted without full validation
+  // the official 2020-12 metaschema is built in (see metaschema.mbt),
+  // so schema documents can be validated like any other instance
   if abs == "https://json-schema.org/draft/2020-12/schema" ||
     abs == "https://json-schema.org/draft/2020-12/schema#" ||
     abs == "http://json-schema.org/draft/2020-12/schema" {
-    return Some(Json::boolean(true))
+    return Some(lookup_builtin_metaschema(ctx, abs))
   }
   // whole-resource reference, including external documents supplied
   // via validate_with_docs

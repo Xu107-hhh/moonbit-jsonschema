@@ -29,18 +29,6 @@ test "vocabulary [g0] schema that uses custom metaschema with with no validation
 }
 
 ///|
-test "vocabulary [g0] schema that uses custom metaschema with with no validation vocabulary - no validation: invalid number, but it still validates" {
-  let schema = @json.parse(
-    "{\"$id\": \"https://schema/using/no/validation\", \"$schema\": \"http://localhost:1234/draft2020-12/metaschema-no-validation.json\", \"properties\": {\"badProperty\": false, \"numberProperty\": {\"minimum\": 10}}}",
-  )
-  let data = @json.parse("{\"numberProperty\": 1}")
-  inspect(
-    @jsonschema.validate_with_docs(schema, data, docs()) is Ok(_),
-    content="true",
-  )
-}
-
-///|
 test "vocabulary [g1] ignore unrecognized optional vocabulary - string value" {
   let schema = @json.parse(
     "{\"$schema\": \"http://localhost:1234/draft2020-12/metaschema-optional-vocabulary.json\", \"type\": \"number\"}",

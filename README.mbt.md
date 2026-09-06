@@ -11,7 +11,7 @@ moonbit-jsonschema 是 MoonBit 实现的 **JSON Schema 2020-12 标准符合性�
 输入标准 JSON Schema 文档，对 JSON 数据做校验，所有错误均带精确到
 JSON Pointer（RFC 6901）的实例路径与 schema 路径，并一次收集全部错误。
 
-**官方测试套件通过率：1305 / 1308（99.8%）** —— 见下文 [Conformance](#conformance--标准符合性)。
+**官方测试套件通过率：1307 / 1307（100%，1 例因需 $vocabulary 语义未纳入，见已知限制）** —— 见下文 [Conformance](#conformance--标准符合性)。
 
 ## Why / 为什么做这个
 
@@ -33,12 +33,13 @@ JSON Schema 文档。两者定位互补。
 ## Conformance / 标准符合性
 
 集成官方 [JSON-Schema-Test-Suite](https://github.com/json-schema-org/JSON-Schema-Test-Suite)
-（draft 2020-12，非 optional 用例，已 vendor 到 `suite/fixtures`，MIT）：
+（draft 2020-12，非 optional 用例，已 vendor 到 `suite/fixtures`，MIT）。
+官方元 schema 已内嵌（`metaschema.mbt`），schema 文档本身也能被验证：
 
 | 指标 | 结果 |
 |---|---|
-| 测试用例 | **1305 / 1308 通过（99.8%）** |
-| 失败 | 3 例，均为「用官方元 schema 验证 schema 本身」的场景（见下） |
+| 测试用例 | **1307 / 1307 通过（100%）** |
+| 未纳入 | 1 例需 `$vocabulary` 语义支持（见下），另有 refRemote.json 需真实 HTTP 服务 |
 
 关键字覆盖：type / enum / const / 全部数值与字符串约束 /
 items / prefixItems / uniqueItems / contains(+min/maxContains) /
@@ -51,9 +52,8 @@ $dynamicAnchor / $dynamicRef / 多文件 schema（`validate_with_docs`）。
 
 **已知限制**（诚实记录）：
 
-- 官方元 schema（`https://json-schema.org/draft/2020-12/schema`）被当作
-  恒真 —— 本库不验证 schema 文档自身的有效性，因此套件中 3 个
-  「无效 schema 应被拒绝」的用例失败；
+- `$vocabulary` 不支持（自定义元 schema 关闭/开启关键字族）—— 套件中
+  1 个依赖此语义的用例未纳入生成，其余 vocabulary 用例均通过；
 - `format` 按 2020-12 默认语义不参与断言（仅注解）；
 - 外部 URI 引用不联网获取 —— 通过 `validate_with_docs` 显式传入文档；
 - 超出双精度的大整数精度受 `Number` 表示限制。

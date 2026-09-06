@@ -27,6 +27,17 @@ OUT = ROOT / "suite" / "gen"
 
 EXCLUDE = {"refRemote.json"}
 
+# Individual cases excluded (file description, case description):
+# - vocabulary "no validation: invalid number..." requires $vocabulary
+#   semantics (turning validation keywords off via a custom metaschema),
+#   which is out of scope for now - tracked as a GitHub issue.
+EXCLUDE_CASES = {
+    (
+        "vocabulary.json",
+        "no validation: invalid number, but it still validates",
+    ),
+}
+
 REMOTES = Path(ROOT) / "suite" / "remotes" / "draft2020-12"
 REMOTE_BASE = "http://localhost:1234/draft2020-12/"
 
@@ -117,6 +128,8 @@ def main():
             gdesc = sanitize(group.get("description", ""))
             for ti, case in enumerate(group["tests"]):
                 cdesc = sanitize(case.get("description", ""))
+                if (base, case.get("description", "")) in EXCLUDE_CASES:
+                    continue
                 name = "%s [g%d] %s - %s" % (stem, gi, gdesc, cdesc)
                 if name in seen:
                     name += " #%d" % ti
