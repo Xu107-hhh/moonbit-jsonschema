@@ -24,3 +24,7 @@ keywords = [ "json-schema", "validation", "json", "llm" ]
 preferred_target = "wasm"
 
 description = "A standards-compliant JSON Schema (2020-12) validator for MoonBit, with precise error paths and full error collection."
+
+import {
+  "moonbitlang/regexp@0.3.5",
+}
