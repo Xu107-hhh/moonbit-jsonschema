@@ -13,6 +13,14 @@ JSON Pointer（RFC 6901）的实例路径与 schema 路径，并一次收集全�
 
 **官方测试套件通过率：1307 / 1307（100%，1 例因需 $vocabulary 语义未纳入，见已知限制）** —— 见下文 [Conformance](#conformance--标准符合性)。
 
+## Install / 安装
+
+```bash
+moon add Xu107-hhh/moonbit-jsonschema
+```
+
+文档与 API：https://mooncakes.io/docs/Xu107-hhh/moonbit-jsonschema
+
 ## Why / 为什么做这个
 
 AI 编程时代，LLM 的结构化输出需要严格的 schema 校验。MoonBit 生态已有
