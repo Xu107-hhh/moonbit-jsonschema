@@ -13,6 +13,12 @@ JSON Pointer（RFC 6901）的实例路径与 schema 路径，并一次收集全�
 
 **官方测试套件通过率：1307 / 1307（100%，1 例因需 $vocabulary 语义未纳入，见已知限制）** —— 见下文 [Conformance](#conformance--标准符合性)。
 
+## Try it online / 在线体验
+
+**https://xu107-hhh.github.io/moonbit-jsonschema/** — 浏览器里实时校验：
+左边贴 schema，右边贴 JSON，错误列表带精确的实例路径与 schema 指针
+（验证器编译为 JavaScript 在页面内运行，无需服务器）。
+
 ## Install / 安装
 
 ```bash
